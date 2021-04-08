@@ -1,6 +1,5 @@
 package ru.geekbrains.sklyarov.race;
 
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 
@@ -56,6 +55,7 @@ public class Car implements Runnable {
                 isOutLine = true;
             }
         }
+
         for (int i = 0; i < race.getStages().size(); i++) {
 
             race.getStages().get(i).go(this);
@@ -67,14 +67,6 @@ public class Car implements Runnable {
                         isWinner = true;
                     }
                     countDownLatch.countDown();
-//                    try {
-//                        cyclicBarrier.await();
-//                    } catch (InterruptedException | BrokenBarrierException e) {
-//                        e.printStackTrace();
-//                    }
-//                    synchronized (MainClass.lock) {
-//                        MainClass.lock.notifyAll();
-//                    }
                 }
             }
         }

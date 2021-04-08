@@ -25,12 +25,9 @@ public class MainClass {
             cars[i] = new Car(race, 20 + (int) (Math.random() * 10), cyclicBarrier, countDownLatch);
         }
 
-        for (int i = 0; i < cars.length; i++) {
-            new Thread(cars[i]).start();
+        for (Car car : cars) {
+            new Thread(car).start();
         }
-//        synchronized (lock) {
-//            lock.wait();
-//        }
         countDownLatch.await();
 
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
