@@ -8,33 +8,29 @@ import java.util.concurrent.Semaphore;
 public class MainClass {
 
     // Количество участников
-    private static final int CARS_COUNT = 4;
+    public static final int CARS_COUNT = 4;
 
     // Барьер для старта
-    private static final CyclicBarrier cyclicBarrier = new CyclicBarrier(CARS_COUNT);
-    // Семафор для тоннеля
-    private final static  Semaphore semaphore = new Semaphore(2);
-    // сначала сделал через монитор, потом переделал на CountDownLatch
-    private final static CountDownLatch countDownLatch = new CountDownLatch(CARS_COUNT);
+    private static final CyclicBarrier cyclicBarrier = new CyclicBarrier(CARS_COUNT + 1);
 
-//    public static Object lock = new Object();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
 
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
-        Race race = new Race(new Road(60), new Tunnel(semaphore), new Road(40));
+        Race race = new Race(new Road(60), new Tunnel(), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
         for (int i = 0; i < cars.length; i++) {
-            cars[i] = new Car(race, 20 + (int) (Math.random() * 10), cyclicBarrier, countDownLatch);
+            cars[i] = new Car(race, 20 + (int) (Math.random() * 10), cyclicBarrier);
         }
 
         for (Car car : cars) {
             new Thread(car).start();
         }
-        countDownLatch.await();
-//        synchronized (lock) {
-//            lock.wait();
-//        }
+
+        cyclicBarrier.await();
+        System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+        cyclicBarrier.await();
+
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
     }
 }
