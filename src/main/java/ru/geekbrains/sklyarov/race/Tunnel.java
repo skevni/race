@@ -3,10 +3,11 @@ package ru.geekbrains.sklyarov.race;
 import java.util.concurrent.Semaphore;
 
 public class Tunnel extends Stage{
-    private final Semaphore semaphore = new Semaphore(MainClass.CARS_COUNT / 2);
-    public Tunnel() {
+    private Semaphore semaphore;
+    public Tunnel(int throughput) {
         this.length = 80;
         this.description = "Тоннель " + length + " метров";
+        semaphore = new Semaphore(throughput);
     }
     @Override
     public void go(Car c) {

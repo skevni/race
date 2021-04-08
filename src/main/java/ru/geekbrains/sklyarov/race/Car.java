@@ -40,7 +40,8 @@ public class Car implements Runnable {
             Thread.sleep(500 + (int) (Math.random() * 800));
             System.out.println(this.name + " готов");
             // ждем всех
-            cyclicBarrier.await();
+            cyclicBarrier.await(); // барьер 2
+            cyclicBarrier.await(); // барьер 3
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +53,7 @@ public class Car implements Runnable {
         winner(this);
 
         try {
-            cyclicBarrier.await();
+            cyclicBarrier.await(); // барьер 6
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
