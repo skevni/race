@@ -1,5 +1,6 @@
 package ru.geekbrains.sklyarov.race;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
@@ -16,6 +17,8 @@ public class MainClass {
     // сначала сделал через монитор, потом переделал на CountDownLatch
     private final static CountDownLatch countDownLatch = new CountDownLatch(CARS_COUNT);
 
+//    public static Object lock = new Object();
+
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
@@ -29,7 +32,9 @@ public class MainClass {
             new Thread(car).start();
         }
         countDownLatch.await();
-
+//        synchronized (lock) {
+//            lock.wait();
+//        }
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
     }
 }
